@@ -40,7 +40,9 @@ def get_products(
     name: str | None = None,
     category_id: int | None = None,
     min_price: float | None = None,
-    max_price: float | None = None
+    max_price: float | None = None,
+    sort_by: str = "id",
+    order: str = "asc"
 ):
     query = db.query(Product)
 
@@ -64,10 +66,34 @@ def get_products(
             Product.price <= max_price
         )
 
+    sort_columns = {
+        "id": Product.id,
+        "name": Product.name,
+        "price": Product.price,
+        "stock": Product.stock
+    }
+
+    sort_column = sort_columns.get(sort_by)
+
+    if sort_column is None:
+        return "invalid_sort"
+
+    if order == "desc":
+        query = query.order_by(
+            sort_column.desc()
+        )
+    else:
+        query = query.order_by(
+            sort_column.asc()
+        )
+
     return query.offset(skip).limit(limit).all()
 
 
-def get_product(db: Session, product_id: int):
+def get_product(
+    db: Session,
+    product_id: int
+):
     return db.query(Product).filter(
         Product.id == product_id
     ).first()
@@ -78,12 +104,17 @@ def update_product(
     product_id: int,
     product_data: ProductUpdate
 ):
-    product = get_product(db, product_id)
+    product = get_product(
+        db,
+        product_id
+    )
 
     if not product:
         return None
 
-    data = product_data.model_dump(exclude_unset=True)
+    data = product_data.model_dump(
+        exclude_unset=True
+    )
 
     if "category_id" in data:
         category = db.query(Category).filter(
@@ -102,8 +133,14 @@ def update_product(
     return product
 
 
-def delete_product(db: Session, product_id: int):
-    product = get_product(db, product_id)
+def delete_product(
+    db: Session,
+    product_id: int
+):
+    product = get_product(
+        db,
+        product_id
+    )
 
     if not product:
         return None
@@ -112,4 +149,3 @@ def delete_product(db: Session, product_id: int):
     db.commit()
 
     return product
-

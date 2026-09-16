@@ -73,6 +73,12 @@ def get_products_endpoint(
         default=None,
         ge=0
     ),
+    sort_by: str = Query(
+        default="id"
+    ),
+    order: str = Query(
+        default="asc"
+    ),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
@@ -86,6 +92,26 @@ def get_products_endpoint(
             detail="El precio mínimo no puede ser mayor que el precio máximo"
         )
 
+    if sort_by not in {
+        "id",
+        "name",
+        "price",
+        "stock"
+    }:
+        raise HTTPException(
+            status_code=400,
+            detail="Campo de ordenamiento inválido"
+        )
+
+    if order not in {
+        "asc",
+        "desc"
+    }:
+        raise HTTPException(
+            status_code=400,
+            detail="Orden inválido. Usa 'asc' o 'desc'"
+        )
+
     return get_products(
         db,
         skip,
@@ -93,7 +119,9 @@ def get_products_endpoint(
         name,
         category_id,
         min_price,
-        max_price
+        max_price,
+        sort_by,
+        order
     )
 
 
