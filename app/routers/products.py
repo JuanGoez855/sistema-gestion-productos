@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
+
 from sqlalchemy.orm import Session
 
 from app.controllers.products import (
@@ -54,15 +55,37 @@ def create_product_endpoint(
     response_model=list[ProductResponse]
 )
 def get_products_endpoint(
-    skip: int = 0,
-    limit: int = 10,
-    name: str | None = None,
-    category_id: int | None = None,
-    min_price: float | None = None,
-    max_price: float | None = None,
+    skip: int = Query(0, ge=0),
+    limit: int = Query(10, ge=1, le=100),
+    name: str | None = Query(
+        default=None,
+        min_length=1
+    ),
+    category_id: int | None = Query(
+        default=None,
+        ge=1
+    ),
+    min_price: float | None = Query(
+        default=None,
+        ge=0
+    ),
+    max_price: float | None = Query(
+        default=None,
+        ge=0
+    ),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
+    if (
+        min_price is not None
+        and max_price is not None
+        and min_price > max_price
+    ):
+        raise HTTPException(
+            status_code=400,
+            detail="El precio mínimo no puede ser mayor que el precio máximo"
+        )
+
     return get_products(
         db,
         skip,
@@ -151,4 +174,3 @@ def delete_product_endpoint(
         "success": True,
         "message": "Producto eliminado correctamente"
     }
-
