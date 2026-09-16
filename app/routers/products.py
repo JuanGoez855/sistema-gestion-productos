@@ -19,6 +19,7 @@ from app.schemas.product import (
     ProductUpdate
 )
 
+
 router = APIRouter(
     prefix="/products",
     tags=["Productos"]
@@ -134,18 +135,10 @@ def get_product_endpoint(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    product = get_product(
+    return get_product(
         db,
         product_id
     )
-
-    if product is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Producto no encontrado"
-        )
-
-    return product
 
 
 @router.put(
@@ -164,12 +157,6 @@ def update_product_endpoint(
         product_data
     )
 
-    if product is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Producto no encontrado"
-        )
-
     if product == "category_not_found":
         raise HTTPException(
             status_code=404,
@@ -187,16 +174,10 @@ def delete_product_endpoint(
     db: Session = Depends(get_db),
     current_user: User = Depends(require_role("admin"))
 ):
-    product = delete_product(
+    delete_product(
         db,
         product_id
     )
-
-    if product is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Producto no encontrado"
-        )
 
     return {
         "success": True,
