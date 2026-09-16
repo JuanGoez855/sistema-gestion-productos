@@ -18,7 +18,6 @@ from app.schemas.product import (
     ProductUpdate
 )
 
-
 router = APIRouter(
     prefix="/products",
     tags=["Productos"]
@@ -55,10 +54,24 @@ def create_product_endpoint(
     response_model=list[ProductResponse]
 )
 def get_products_endpoint(
+    skip: int = 0,
+    limit: int = 10,
+    name: str | None = None,
+    category_id: int | None = None,
+    min_price: float | None = None,
+    max_price: float | None = None,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    return get_products(db)
+    return get_products(
+        db,
+        skip,
+        limit,
+        name,
+        category_id,
+        min_price,
+        max_price
+    )
 
 
 @router.get(
@@ -138,3 +151,4 @@ def delete_product_endpoint(
         "success": True,
         "message": "Producto eliminado correctamente"
     }
+

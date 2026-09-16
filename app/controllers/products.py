@@ -33,14 +33,41 @@ def create_product(
     return product
 
 
-def get_products(db: Session):
-    return db.query(Product).all()
-
-
-def get_product(
+def get_products(
     db: Session,
-    product_id: int
+    skip: int = 0,
+    limit: int = 10,
+    name: str | None = None,
+    category_id: int | None = None,
+    min_price: float | None = None,
+    max_price: float | None = None
 ):
+    query = db.query(Product)
+
+    if name:
+        query = query.filter(
+            Product.name.ilike(f"%{name}%")
+        )
+
+    if category_id is not None:
+        query = query.filter(
+            Product.category_id == category_id
+        )
+
+    if min_price is not None:
+        query = query.filter(
+            Product.price >= min_price
+        )
+
+    if max_price is not None:
+        query = query.filter(
+            Product.price <= max_price
+        )
+
+    return query.offset(skip).limit(limit).all()
+
+
+def get_product(db: Session, product_id: int):
     return db.query(Product).filter(
         Product.id == product_id
     ).first()
@@ -56,9 +83,7 @@ def update_product(
     if not product:
         return None
 
-    data = product_data.model_dump(
-        exclude_unset=True
-    )
+    data = product_data.model_dump(exclude_unset=True)
 
     if "category_id" in data:
         category = db.query(Category).filter(
@@ -77,10 +102,7 @@ def update_product(
     return product
 
 
-def delete_product(
-    db: Session,
-    product_id: int
-):
+def delete_product(db: Session, product_id: int):
     product = get_product(db, product_id)
 
     if not product:
@@ -90,3 +112,4 @@ def delete_product(
     db.commit()
 
     return product
+
