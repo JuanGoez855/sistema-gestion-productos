@@ -24,3 +24,4 @@ def root():
         "success": True,
         "message": "API funcionando correctamente"
     }
+
