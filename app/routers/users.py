@@ -8,7 +8,10 @@ from app.controllers.users import (
     get_users,
     update_user
 )
+
 from app.database import get_db
+from app.dependencies.auth import get_current_user, require_role
+from app.models.user import User
 from app.schemas.user import UserCreate, UserResponse, UserUpdate
 
 
@@ -43,7 +46,8 @@ def create_user_endpoint(
     response_model=list[UserResponse]
 )
 def get_users_endpoint(
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     return get_users(db)
 
@@ -54,7 +58,8 @@ def get_users_endpoint(
 )
 def get_user_endpoint(
     user_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     user = get_user(db, user_id)
 
@@ -74,7 +79,8 @@ def get_user_endpoint(
 def update_user_endpoint(
     user_id: int,
     user_data: UserUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_role("admin"))
 ):
     user = update_user(db, user_id, user_data)
 
@@ -92,7 +98,8 @@ def update_user_endpoint(
 )
 def delete_user_endpoint(
     user_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_role("admin"))
 ):
     user = delete_user(db, user_id)
 
