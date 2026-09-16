@@ -13,6 +13,7 @@ from app.controllers.products import (
 from app.database import get_db
 from app.dependencies.auth import get_current_user, require_role
 from app.models.user import User
+from app.schemas.common import ApiMessage, ApiResponse
 from app.schemas.product import (
     ProductCreate,
     ProductResponse,
@@ -28,7 +29,7 @@ router = APIRouter(
 
 @router.post(
     "/",
-    response_model=ProductResponse,
+    response_model=ApiResponse[ProductResponse],
     status_code=status.HTTP_201_CREATED
 )
 def create_product_endpoint(
@@ -48,12 +49,16 @@ def create_product_endpoint(
             detail="Categoría no encontrada"
         )
 
-    return product
+    return {
+        "success": True,
+        "message": "Producto creado correctamente",
+        "data": product
+    }
 
 
 @router.get(
     "/",
-    response_model=list[ProductResponse]
+    response_model=ApiResponse[list[ProductResponse]]
 )
 def get_products_endpoint(
     skip: int = Query(0, ge=0),
@@ -113,7 +118,7 @@ def get_products_endpoint(
             detail="Orden inválido. Usa 'asc' o 'desc'"
         )
 
-    return get_products(
+    products = get_products(
         db,
         skip,
         limit,
@@ -125,25 +130,37 @@ def get_products_endpoint(
         order
     )
 
+    return {
+        "success": True,
+        "message": "Productos obtenidos correctamente",
+        "data": products
+    }
+
 
 @router.get(
     "/{product_id}",
-    response_model=ProductResponse
+    response_model=ApiResponse[ProductResponse]
 )
 def get_product_endpoint(
     product_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    return get_product(
+    product = get_product(
         db,
         product_id
     )
 
+    return {
+        "success": True,
+        "message": "Producto obtenido correctamente",
+        "data": product
+    }
+
 
 @router.put(
     "/{product_id}",
-    response_model=ProductResponse
+    response_model=ApiResponse[ProductResponse]
 )
 def update_product_endpoint(
     product_id: int,
@@ -163,11 +180,16 @@ def update_product_endpoint(
             detail="Categoría no encontrada"
         )
 
-    return product
+    return {
+        "success": True,
+        "message": "Producto actualizado correctamente",
+        "data": product
+    }
 
 
 @router.delete(
-    "/{product_id}"
+    "/{product_id}",
+    response_model=ApiMessage
 )
 def delete_product_endpoint(
     product_id: int,
