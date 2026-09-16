@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Dashboard - Sistema de Gestión de Productos</title>
+
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
 
     <main class="dashboard-container">
 
         <header class="dashboard-header">
+
             <div>
                 <h1>Sistema de Gestión de Productos</h1>
                 <p id="welcomeMessage"></p>
@@ -19,48 +23,72 @@
             <button id="logoutButton">
                 Cerrar sesión
             </button>
+
         </header>
 
         <section class="dashboard-content">
 
             <div class="user-info">
+
                 <h2>Información de usuario</h2>
+
                 <p>
                     <strong>Nombre:</strong>
                     <span id="userName"></span>
                 </p>
+
                 <p>
                     <strong>Correo:</strong>
                     <span id="userEmail"></span>
                 </p>
+
                 <p>
                     <strong>Rol:</strong>
                     <span id="userRole"></span>
                 </p>
+
             </div>
 
+
             <div id="adminOptions" class="admin-options">
+
                 <h2>Opciones de administrador</h2>
 
-                <button>
+                <button
+                    type="button"
+                    onclick="window.location.href='users.html'"
+                >
                     Gestionar usuarios
                 </button>
 
-                <button>
+                <button
+                    type="button"
+                    onclick="window.location.href='categories.html'"
+                >
                     Gestionar categorías
                 </button>
 
-                <button>
+                <button
+                    type="button"
+                    onclick="window.location.href='products.html'"
+                >
                     Gestionar productos
                 </button>
+
             </div>
 
+
             <div class="user-options">
+
                 <h2>Opciones disponibles</h2>
 
-                <button>
+                <button
+                    type="button"
+                    onclick="window.location.href='products.html'"
+                >
                     Ver productos
                 </button>
+
             </div>
 
         </section>
@@ -68,5 +96,6 @@
     </main>
 
     <script src="js/dashboard.js"></script>
+
 </body>
 </html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Usuarios - Sistema de Gestión de Productos</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <main class="dashboard-container">
+
+        <header class="dashboard-header">
+
+            <div>
+                <h1>Gestión de Usuarios</h1>
+                <p>Administración de usuarios del sistema</p>
+            </div>
+
+            <button
+                id="backButton"
+                type="button"
+                onclick="window.location.href='dashboard.html'"
+            >
+                Volver al dashboard
+            </button>
+
+        </header>
+
+
+        <section class="dashboard-content">
+
+            <div class="user-info">
+
+                <h2>Usuarios registrados</h2>
+
+                <div id="usersContainer">
+                    <p>Cargando usuarios...</p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="js/users.js"></script>
+
+</body>
+</html>
+

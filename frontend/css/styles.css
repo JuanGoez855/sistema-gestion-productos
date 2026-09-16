@@ -8,7 +8,12 @@ body {
     font-family: Arial, sans-serif;
     background: #f4f6f8;
     min-height: 100vh;
+    color: #1f2937;
 }
+
+/* =========================
+   LOGIN
+   ========================= */
 
 .login-container {
     min-height: 100vh;
@@ -16,6 +21,11 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
+    background: linear-gradient(
+        135deg,
+        #e0e7ff,
+        #f4f6f8
+    );
 }
 
 .login-card {
@@ -23,20 +33,22 @@ body {
     max-width: 420px;
     background: white;
     padding: 35px;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
 .login-card h1 {
     text-align: center;
     font-size: 24px;
     margin-bottom: 10px;
+    color: #1e3a8a;
 }
 
 .login-card h2 {
     text-align: center;
     font-size: 20px;
     margin-bottom: 25px;
+    color: #374151;
 }
 
 .form-group {
@@ -47,30 +59,38 @@ body {
     display: block;
     margin-bottom: 7px;
     font-weight: bold;
+    color: #374151;
 }
 
 .form-group input {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
     font-size: 16px;
+    transition: 0.2s;
 }
 
 .form-group input:focus {
     outline: none;
     border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
 #loginButton {
     width: 100%;
     padding: 12px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     background: #2563eb;
     color: white;
     font-size: 16px;
     cursor: pointer;
+    transition: 0.2s;
+}
+
+#loginButton:hover {
+    background: #1d4ed8;
 }
 
 #loginButton:disabled {
@@ -83,3 +103,217 @@ body {
     text-align: center;
     font-weight: bold;
 }
+
+/* =========================
+   DASHBOARD
+   ========================= */
+
+.dashboard-container {
+    min-height: 100vh;
+    background: #f4f6f8;
+}
+
+/* Encabezado */
+
+.dashboard-header {
+    background: linear-gradient(
+        135deg,
+        #1e3a8a,
+        #2563eb
+    );
+    color: white;
+    padding: 25px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-header h1 {
+    font-size: 26px;
+    margin-bottom: 8px;
+}
+
+#welcomeMessage {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+/* Botón cerrar sesión */
+
+#logoutButton {
+    border: none;
+    background: white;
+    color: #1e3a8a;
+    padding: 11px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#logoutButton:hover {
+    background: #e5e7eb;
+    transform: translateY(-1px);
+}
+
+/* Botón volver */
+
+#backButton {
+    border: none;
+    background: white;
+    color: #1e3a8a;
+    padding: 11px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#backButton:hover {
+    background: #e5e7eb;
+    transform: translateY(-1px);
+}
+
+/* Contenido */
+
+.dashboard-content {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 35px 25px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+/* Tarjetas */
+
+.user-info,
+.admin-options,
+.user-options {
+    background: white;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+}
+
+.user-info h2,
+.admin-options h2,
+.user-options h2 {
+    color: #1e3a8a;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* Información del usuario */
+
+.user-info p {
+    margin-bottom: 13px;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 8px;
+    color: #4b5563;
+}
+
+.user-info strong {
+    color: #1f2937;
+}
+
+/* Opciones */
+
+.admin-options {
+    display: none;
+}
+
+.admin-options button,
+.user-options button {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.admin-options button:hover,
+.user-options button:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.admin-options button:last-child,
+.user-options button:last-child {
+    margin-bottom: 0;
+}
+
+/* =========================
+   USUARIOS
+   ========================= */
+
+#usersContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#usersContainer .user-info {
+    width: 100%;
+    padding: 18px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+#usersContainer .user-info p {
+    margin-bottom: 8px;
+    padding: 10px;
+}
+
+#usersContainer .user-info p:last-child {
+    margin-bottom: 0;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 768px) {
+
+    .dashboard-header {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 22px;
+    }
+
+    #logoutButton,
+    #backButton {
+        width: 100%;
+    }
+
+    .dashboard-content {
+        grid-template-columns: 1fr;
+        padding: 25px 15px;
+    }
+
+    .user-info,
+    .admin-options,
+    .user-options {
+        padding: 20px;
+    }
+}
+
