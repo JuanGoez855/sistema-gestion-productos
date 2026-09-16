@@ -7,12 +7,12 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Sistema de Gestión de Productos",
-    description="API REST desarrollada con FastAPI",
+    description="API REST para la gestión de usuarios, categorías y productos",
     version="1.0.0"
 )
 
 
-@app.get("/")
+@app.get("/", tags=["Inicio"])
 def root():
     return {
         "success": True,
